@@ -1,18 +1,12 @@
-FROM ubuntu:vivid
+FROM ubuntu
 
 ENV DEBIAN_FRONTEND noninteractive
-
-# Usual update / upgrade
-RUN apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
-
-# Install our favorite vcs and other requirements
-RUN apt-get install -y git curl wget vim supervisor
-
-# Install nodejs
+RUN sed -i 's/archive.ubuntu.com/kr.archive.ubuntu.com/g' /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get dist-upgrade -y
+RUN apt-get install -y git curl wget vim supervisor libicu-dev make build-essential
 RUN curl -sL https://deb.nodesource.com/setup | bash -
-RUN apt-get install --fix-missing -y nodejs
-
-# Get slack-irc
+RUN apt-get install -y nodejs
 RUN npm install -g slack-irc
 
 # Add configurations
