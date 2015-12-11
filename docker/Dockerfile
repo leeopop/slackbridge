@@ -7,11 +7,15 @@ RUN apt-get dist-upgrade -y
 RUN apt-get install -y git curl wget vim supervisor libicu-dev make build-essential
 RUN curl -sL https://deb.nodesource.com/setup | bash -
 RUN apt-get install -y nodejs
+RUN npm -g install npm@latest
 RUN git clone https://github.com/leeopop/slack-irc.git
-RUN cd slack-irc; npm install -g; cd ..
 
 # Add configurations
 ADD config.json slack-irc/config.json
+
+# Do npm install
+RUN cd slack-irc; npm install; npm run build; cd ..;
+
 
 # Add supervisor configs
 ADD supervisord.conf supervisord.conf
